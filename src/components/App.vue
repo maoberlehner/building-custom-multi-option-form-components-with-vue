@@ -121,12 +121,22 @@
         </table>
       </div>
     </section>
+
+    <section :class="`${$options.name}__demo`">
+      <h2 class="h3">Tags input</h2>
+      <form-tags-input
+        v-model="tags"
+        :option-adapter="tagOptionAdapter"
+        :new-tag-adapter="newTagAdapter"
+      />
+    </section>
   </div>
 </template>
 
 <script>
 import FormCheckbox from './FormCheckbox.vue';
 import FormSelect from './FormSelect.vue';
+import FormTagsInput from './FormTagsInput.vue';
 
 const products = [
   {
@@ -151,6 +161,7 @@ export default {
   components: {
     FormCheckbox,
     FormSelect,
+    FormTagsInput,
   },
   data() {
     return {
@@ -176,6 +187,30 @@ export default {
       // Checkbox
       simpleCheckboxValue: [`A`],
       productsCheckboxValue: [],
+      // Tags
+      tags: [
+        {
+          uuid: `aa11bb`,
+          name: `Foo`,
+        },
+        {
+          uuid: `bb22bb`,
+          name: `Bar`,
+        },
+      ],
+      tagOptionAdapter(value) {
+        return {
+          id: value.uuid,
+          label: value.name,
+          value,
+        };
+      },
+      newTagAdapter(value) {
+        return {
+          uuid: value,
+          name: value,
+        };
+      },
     };
   },
 };
