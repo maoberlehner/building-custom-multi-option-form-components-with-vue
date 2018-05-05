@@ -20,7 +20,62 @@
         :options="simpleOptions"
       />
       <div :class="`${$options.name}__demoFigure`">
-        <p>You've selected: {{ simpleMultiValue.length ? simpleMultiValue.join(', ') : 'nothing' }}</p>
+        <p>
+          You've selected:
+          {{ simpleMultiValue.length ? simpleMultiValue.join(', ') : 'nothing' }}
+        </p>
+      </div>
+    </section>
+
+    <section :class="`${$options.name}__demo`">
+      <h2 class="h3">Single value product selector</h2>
+      <form-select
+        v-model="singleProduct"
+        :options="products"
+        :option-adapter="productOptionAdapter"
+      />
+      <div :class="`${$options.name}__demoFigure`">
+        <div :class="`card ${$options.name}__product`">
+          <div class="card-body">
+            <h5 class="card-title">{{ singleProduct.name }}</h5>
+            <p class="card-text">€ {{ singleProduct.price }}</p>
+            <a
+              href="#"
+              class="btn btn-primary"
+            >
+              Buy me!
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section :class="`${$options.name}__demo`">
+      <h2 class="h3">Multi value product selector</h2>
+      <form-select
+        v-model="multiProducts"
+        :options="products"
+        :option-adapter="productOptionAdapter"
+      />
+      <div :class="`${$options.name}__demoFigure`">
+        <table
+          v-if="multiProducts.length"
+          class="table"
+        >
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+          <tr
+            v-for="product in multiProducts"
+            :key="product.uuid"
+          >
+            <td>{{ product.uuid }}</td>
+            <td>{{ product.name }}</td>
+            <td>€ {{ product.price }}</td>
+          </tr>
+        </table>
       </div>
     </section>
   </div>
@@ -28,6 +83,24 @@
 
 <script>
 import FormSelect from './FormSelect.vue';
+
+const products = [
+  {
+    uuid: `aa11bb`,
+    name: `iPad`,
+    price: 699,
+  },
+  {
+    uuid: `bb22aa`,
+    name: `iPhone`,
+    price: 799,
+  },
+  {
+    uuid: `bb33aa`,
+    name: `iPhone X`,
+    price: 1199,
+  },
+];
 
 export default {
   name: `App`,
@@ -41,6 +114,20 @@ export default {
       simpleOptions: [`A`, `B`],
       // Simple multi value,
       simpleMultiValue: [],
+      // Products
+      products,
+      singleProduct: products[1],
+      multiProducts: [
+        products[1],
+        products[2],
+      ],
+      productOptionAdapter(value) {
+        return {
+          id: value.uuid,
+          label: value.name,
+          value,
+        };
+      },
     };
   },
 };
@@ -67,6 +154,10 @@ body {
 
   &__demoFigure {
     margin-top: 1em;
+  }
+
+  &__product {
+    max-width: 12em;
   }
 }
 </style>
