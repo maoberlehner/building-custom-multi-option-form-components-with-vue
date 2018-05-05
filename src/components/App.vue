@@ -78,10 +78,54 @@
         </table>
       </div>
     </section>
+
+    <section :class="`${$options.name}__demo`">
+      <h2 class="h3">Multi checkboxes with simple values</h2>
+      <form-checkbox
+        v-model="simpleCheckboxValue"
+        :options="simpleOptions"
+      />
+      <div :class="`${$options.name}__demoFigure`">
+        <p>
+          You've selected:
+          {{ simpleCheckboxValue.length ? simpleCheckboxValue.join(', ') : 'nothing' }}
+        </p>
+      </div>
+    </section>
+
+    <section :class="`${$options.name}__demo`">
+      <h2 class="h3">Multi checkboxe product selector</h2>
+      <form-checkbox
+        v-model="productsCheckboxValue"
+        :options="products"
+        :option-adapter="productOptionAdapter"
+      />
+      <div :class="`${$options.name}__demoFigure`">
+        <table
+          v-if="productsCheckboxValue.length"
+          class="table"
+        >
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+          <tr
+            v-for="product in productsCheckboxValue"
+            :key="product.uuid"
+          >
+            <td>{{ product.uuid }}</td>
+            <td>{{ product.name }}</td>
+            <td>€ {{ product.price }}</td>
+          </tr>
+        </table>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
+import FormCheckbox from './FormCheckbox.vue';
 import FormSelect from './FormSelect.vue';
 
 const products = [
@@ -105,6 +149,7 @@ const products = [
 export default {
   name: `App`,
   components: {
+    FormCheckbox,
     FormSelect,
   },
   data() {
@@ -128,6 +173,9 @@ export default {
           value,
         };
       },
+      // Checkbox
+      simpleCheckboxValue: [`A`],
+      productsCheckboxValue: [],
     };
   },
 };
