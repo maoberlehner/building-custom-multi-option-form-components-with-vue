@@ -1,6 +1,7 @@
 <template>
   <select
     :class="$options.name"
+    :multiple="multiple"
     v-model="selected"
     @change="updateValue"
   >
@@ -43,7 +44,7 @@ export default {
       default: () => [],
     },
     value: {
-      type: [String, Number],
+      type: [Array, String, Number],
       default: null,
     },
   },
@@ -51,6 +52,11 @@ export default {
     return {
       selected: this.value,
     };
+  },
+  computed: {
+    multiple() {
+      return Array.isArray(this.value);
+    },
   },
   methods: {
     updateValue() {

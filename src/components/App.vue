@@ -12,6 +12,17 @@
         <p>You've selected: {{ simpleValue || 'nothing' }}</p>
       </div>
     </section>
+
+    <section :class="`${$options.name}__demo`">
+      <h2 class="h3">Simple multi value selection</h2>
+      <form-select
+        v-model="simpleMultiValue"
+        :options="simpleOptions"
+      />
+      <div :class="`${$options.name}__demoFigure`">
+        <p>You've selected: {{ simpleMultiValue.length ? simpleMultiValue.join(', ') : 'nothing' }}</p>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -25,9 +36,11 @@ export default {
   },
   data() {
     return {
-      // Simple value
+      // Simple single value
       simpleValue: null,
       simpleOptions: [`A`, `B`],
+      // Simple multi value,
+      simpleMultiValue: [],
     };
   },
 };
