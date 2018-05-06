@@ -11,8 +11,9 @@
       >
         <button
           class="btn btn-primary btn-sm"
+          @click="removeTag(tag)"
         >
-          {{ tag.label }}
+          {{ tag.label }} (x)
         </button>
       </li>
     </ul>
@@ -63,6 +64,9 @@ export default {
 
       this.$emit(`change`, [...this.value, this.newTagValue]);
       this.newTag = ``;
+    },
+    removeTag(tag) {
+      this.$emit(`change`, this.value.filter(x => this.optionAdapter(x).id !== tag.id));
     },
   },
 };
